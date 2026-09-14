@@ -20,7 +20,7 @@ function App() {
 
     //this is for selected theme
     useEffect(() => {
-        localStorage.setItem(//local storage is for whenever we refresh the page it shouldnt go for default page
+        localStorage.setItem(// localStorage remembers the selected theme after page refresh
             "theme",
             darkMode ? "dark" : "light"
         );
