@@ -66,14 +66,7 @@ function ProjectCard({
                     Project Details
                 </Link>
 
-                <a
-                    href={link}
-                    className="btn"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    GitHub
-                </a>
+                
 
             </div>
 

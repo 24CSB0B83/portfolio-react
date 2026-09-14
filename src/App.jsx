@@ -13,14 +13,14 @@ import NotFound from "./pages/NotFound";
 
 function App() {
 
-    // Dark / Light theme state
+    //usestate is for current theme
     const [darkMode, setDarkMode] = useState(() => {
         return localStorage.getItem("theme") === "dark";
     });
 
-    // Save theme preference whenever darkMode changes
+    //this is for selected theme
     useEffect(() => {
-        localStorage.setItem(
+        localStorage.setItem(//local storage is for whenever we refresh the page it shouldnt go for default page
             "theme",
             darkMode ? "dark" : "light"
         );

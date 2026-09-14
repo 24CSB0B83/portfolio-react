@@ -1,15 +1,48 @@
 import { Link, useParams } from "react-router-dom";
-import projects from "../data/projects";
+import { useEffect, useState } from "react";
 
 function ProjectDetails() {
     const { projectId } = useParams();
 
-    const project = projects.find(
-        (item) => item.id === projectId
-    );
+    const [project, setProject] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
-    // If project doesn't exist
-    if (!project) {
+    useEffect(() => {
+        fetch(`http://localhost:5000/api/projects/${projectId}`)
+            .then((response) => {
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        throw new Error("Project Not Found");
+                    }
+
+                    throw new Error("Failed to fetch project");
+                }
+
+                return response.json();
+            })
+            .then((data) => {
+                setProject(data);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error(error);
+                setError(error.message);
+                setLoading(false);
+            });
+    }, [projectId]);
+
+    if (loading) {
+        return (
+            <main>
+                <section className="projects-page">
+                    <p>Loading project...</p>
+                </section>
+            </main>
+        );
+    }
+
+    if (error) {
         return (
             <main>
                 <section className="projects-page">

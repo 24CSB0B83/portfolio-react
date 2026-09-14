@@ -6,10 +6,10 @@ import { useEffect, useState } from "react";
 
 function Home() {
 
-    // Loading state
+    //State is loading now
     const [loading, setLoading] = useState(true);
 
-    // Simulate loading when Home component mounts
+    //simulates loading when Home component mounts
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
@@ -21,7 +21,7 @@ function Home() {
         };
     }, []);
 
-    // Loading screen
+    //conditional rendering
     if (loading) {
         return (
             <main>
@@ -39,9 +39,7 @@ function Home() {
 
             {/* HERO SECTION */}
             <section className="hero">
-
                 <div className="hero-content">
-
                     <h3>Hello, I'm</h3>
 
                     <h1>Lavanya</h1>

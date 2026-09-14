@@ -1,7 +1,31 @@
-import projects from "../data/projects";
+import { useEffect, useState } from "react";
 import ProjectCard from "../components/ProjectCard";
 
 function Projects() {
+    const [projects, setProjects] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        fetch("http://localhost:5000/api/projects")
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch projects");
+                }
+
+                return response.json();
+            })
+            .then((data) => {
+                setProjects(data);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error(error);
+                setError("Unable to load projects. Please try again later.");
+                setLoading(false);
+            });
+    }, []);
+
     return (
         <main>
             <section className="projects-page">
@@ -13,21 +37,31 @@ function Projects() {
                     various technologies.
                 </p>
 
-                <div className="projects-container">
+                {loading && <p>Loading projects...</p>}
 
-                    {projects.map((project) => (
-                        <ProjectCard
-                            key={project.id}
-                            id={project.id}
-                            title={project.title}
-                            description={project.description}
-                            techStack={project.techStack}
-                            image={project.image}
-                            link={project.link}
-                        />
-                    ))}
+                {error && (
+                    <p className="error">
+                        {error}
+                    </p>
+                )}
 
-                </div>
+                {!loading && !error && (
+                    <div className="projects-container">
+
+                        {projects.map((project) => (
+                            <ProjectCard
+                                key={project.id}
+                                id={project.id}
+                                title={project.title}
+                                description={project.description}
+                                techStack={project.techStack}
+                                image={project.image}
+                                link={project.link}
+                            />
+                        ))}
+
+                    </div>
+                )}
 
             </section>
         </main>

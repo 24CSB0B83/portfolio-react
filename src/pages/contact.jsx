@@ -1,32 +1,55 @@
 import { useState } from "react";
+
 function Contact() {
-    //FORM STATE
+    // FORM STATE
     const [formData, setFormData] = useState({
         name: "",
         email: "",
         subject: "",
         message: ""
     });
-    //ERROR STATE
+
+    // ERROR STATE
     const [errors, setErrors] = useState({});
-    //SUCCESS STATE
+
+    // SUCCESS STATE
     const [submitted, setSubmitted] = useState(false);
-    //EMAIL VALIDATION
+
+    // EMAIL VALIDATION
     const isValidEmail = (email) => {
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailPattern.test(email.trim());
     };
-    //HANDLE INPUT
+
+    // HANDLE INPUT CHANGES
     const handleChange = (e) => {
         const { id, value } = e.target;
+
         // Update form data
         setFormData((prevData) => ({
             ...prevData,
             [id]: value
         }));
+
         // Remove success message when user edits form
         setSubmitted(false);
-        // ================= LIVE EMAIL VALIDATION =================
+
+        // NAME VALIDATION
+        if (id === "name") {
+            if (value.trim() === "") {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    name: "Name is required"
+                }));
+            } else {
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    name: ""
+                }));
+            }
+        }
+
+        // EMAIL VALIDATION
         if (id === "email") {
             if (value.trim() === "") {
                 setErrors((prevErrors) => ({
@@ -44,24 +67,24 @@ function Contact() {
                     email: ""
                 }));
             }
-            return;
         }
-        // ================= NAME VALIDATION =================
-        if (id === "name") {
+
+        // SUBJECT VALIDATION
+        if (id === "subject") {
             if (value.trim() === "") {
                 setErrors((prevErrors) => ({
                     ...prevErrors,
-                    name: "Name is required"
+                    subject: "Subject is required"
                 }));
             } else {
                 setErrors((prevErrors) => ({
                     ...prevErrors,
-                    name: ""
+                    subject: ""
                 }));
             }
-            return;
         }
-        // ================= MESSAGE VALIDATION =================
+
+        // MESSAGE VALIDATION
         if (id === "message") {
             if (value.trim() === "") {
                 setErrors((prevErrors) => ({
@@ -74,103 +97,162 @@ function Contact() {
                     message: ""
                 }));
             }
-            return;
         }
     };
-    //VALIDATE FORM
+
+    // VALIDATE COMPLETE FORM
     const validateForm = () => {
         const newErrors = {};
+
         // Name
         if (formData.name.trim() === "") {
             newErrors.name = "Name is required";
         }
+
         // Email
         if (formData.email.trim() === "") {
             newErrors.email = "Email is required";
         } else if (!isValidEmail(formData.email)) {
             newErrors.email = "Invalid email address";
         }
+
+        // Subject
+        if (formData.subject.trim() === "") {
+            newErrors.subject = "Subject is required";
+        }
+
         // Message
         if (formData.message.trim() === "") {
             newErrors.message = "Message is required";
         }
+
         setErrors(newErrors);
+
         return Object.keys(newErrors).length === 0;
     };
-    // CHECK FORM VALIDITY
-    const isFormValid =
-        formData.name.trim() !== "" &&
-        formData.email.trim() !== "" &&
-        isValidEmail(formData.email) &&
-        formData.message.trim() !== "";
-    //SUBMIT FORM
-    const handleSubmit = (e) => {
+
+    // SUBMIT FORM
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Validate form before submitting
+
+        // Validate before submitting
         if (!validateForm()) {
+            setSubmitted(false);
             return;
         }
-        // Show success message
-        setSubmitted(true);
-        // Clear form
-        setFormData({
-            name: "",
-            email: "",
-            subject: "",
-            message: ""
-        });
-        // Clear errors
-        setErrors({});
+
+        try {
+            // Send form data to Express backend
+            const response = await fetch(
+                "http://localhost:5000/api/contact",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        name: formData.name,
+                        email: formData.email,
+                        message: formData.message
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            // Handle server-side error
+            if (!response.ok) {
+                throw new Error(
+                    data.error || "Failed to send message"
+                );
+            }
+
+            // Show success message
+            setSubmitted(true);
+
+            // Clear form
+            setFormData({
+                name: "",
+                email: "",
+                subject: "",
+                message: ""
+            });
+
+            // Clear errors
+            setErrors({});
+        } catch (error) {
+            console.error(error);
+
+            // Display server/backend error
+            setErrors({
+                submit: error.message
+            });
+
+            setSubmitted(false);
+        }
     };
+
     return (
         <main>
             <section className="contact-page">
-                {/* ================= PAGE TITLE ================= */}
+
+                {/* PAGE TITLE */}
                 <h1>Contact</h1>
+
                 <p>
                     Have a question or want to collaborate?
                     Feel free to reach out using the form below.
                 </p>
+
                 <div className="contact-container">
-                    {/* =================================================
-                        CONTACT INFORMATION
-                    ================================================= */}
+
+                    {/* CONTACT INFORMATION */}
                     <div className="contact-info">
                         <h2>Get In Touch</h2>
+
                         <p>
                             <strong>Name:</strong>{" "}
                             Varthyavath Lavanya
                         </p>
+
                         <p>
                             <strong>Email:</strong>{" "}
                             vl24csb0b83@student.nitw.ac.in
                         </p>
+
                         <p>
                             <strong>Phone:</strong>{" "}
                             +91 8247033486
                         </p>
+
                         <p>
                             <strong>Location:</strong>{" "}
                             Nalgonda-Telangana
                         </p>
+
                         <br />
+
                         <h3>Connect with Me</h3>
+
                         <ul>
                             <li>
                                 <a href="#">
                                     GitHub
                                 </a>
                             </li>
+
                             <li>
                                 <a href="#">
                                     LinkedIn
                                 </a>
                             </li>
+
                             <li>
                                 <a href="#">
                                     LeetCode
                                 </a>
                             </li>
+
                             <li>
                                 <a href="mailto:vl24csb0b83@student.nitw.ac.in">
                                     Email Me
@@ -178,19 +260,19 @@ function Contact() {
                             </li>
                         </ul>
                     </div>
-                    {/* =================================================
-                        CONTACT FORM
-                    ================================================= */}
+
+                    {/* CONTACT FORM */}
                     <div className="contact-form">
+
                         <h2>Send a Message</h2>
-                        <form
-                            onSubmit={handleSubmit}
-                            noValidate
-                        >
-                            {/* ================= NAME ================= */}
+
+                        <form onSubmit={handleSubmit} noValidate>
+
+                            {/* NAME */}
                             <label htmlFor="name">
                                 Full Name
                             </label>
+
                             <input
                                 type="text"
                                 id="name"
@@ -198,15 +280,18 @@ function Contact() {
                                 value={formData.name}
                                 onChange={handleChange}
                             />
+
                             {errors.name && (
                                 <p className="error">
                                     {errors.name}
                                 </p>
                             )}
-                            {/* ================= EMAIL ================= */}
+
+                            {/* EMAIL */}
                             <label htmlFor="email">
                                 Email Address
                             </label>
+
                             <input
                                 type="text"
                                 id="email"
@@ -214,15 +299,18 @@ function Contact() {
                                 value={formData.email}
                                 onChange={handleChange}
                             />
+
                             {errors.email && (
                                 <p className="error">
                                     {errors.email}
                                 </p>
                             )}
-                            {/* ================= SUBJECT ================= */}
+
+                            {/* SUBJECT */}
                             <label htmlFor="subject">
                                 Subject
                             </label>
+
                             <input
                                 type="text"
                                 id="subject"
@@ -230,10 +318,18 @@ function Contact() {
                                 value={formData.subject}
                                 onChange={handleChange}
                             />
-                            {/* ================= MESSAGE ================= */}
+
+                            {errors.subject && (
+                                <p className="error">
+                                    {errors.subject}
+                                </p>
+                            )}
+
+                            {/* MESSAGE */}
                             <label htmlFor="message">
                                 Message
                             </label>
+
                             <textarea
                                 id="message"
                                 rows="6"
@@ -241,29 +337,39 @@ function Contact() {
                                 value={formData.message}
                                 onChange={handleChange}
                             />
+
                             {errors.message && (
                                 <p className="error">
                                     {errors.message}
                                 </p>
                             )}
-                            {/* ================= SUCCESS ================= */}
+
+                            {/* SERVER/SUBMIT ERROR */}
+                            {errors.submit && (
+                                <p className="error">
+                                    {errors.submit}
+                                </p>
+                            )}
+
+                            {/* SUCCESS MESSAGE */}
                             {submitted && (
                                 <p className="success">
                                     Message sent successfully!
                                 </p>
                             )}
-                            {/* ================= SUBMIT BUTTON ================= */}
-                            <button
-                                type="submit"
-                                disabled={!isFormValid}
-                            >
+
+                            {/* SUBMIT BUTTON */}
+                            <button type="submit">
                                 Send Message
                             </button>
+
                         </form>
                     </div>
+
                 </div>
             </section>
         </main>
     );
 }
+
 export default Contact;

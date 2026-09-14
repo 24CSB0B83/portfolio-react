@@ -7,6 +7,7 @@ Firstlt I built this as plain HTML5/CSS3 a while back,then rebuilt it in React f
 ---
 ## Live Demo
 I'm still finishing up the GitHub Pages deployment for this — for now the easiest way to see it is to run it locally(takes about a minute,instructions below).I'll drop the live link here once it's up.
+`https://drive.google.com/file/d/1O2W0spRh1XkOW7Uq2WYjM5UUUCZ80fip/view?usp=drive_link`
 
 ---
 ## Tech Stack
@@ -43,7 +44,7 @@ I'm still finishing up the GitHub Pages deployment for this — for now the easi
 **Dark / light mode** —toggle in the navbar, backed by a bit of state:
 
 ```jsx
-const[darkMode, setDarkMode]=useState(false);
+const[darkMode,setDarkMode]=useState(false);
 ```
 The choice gets saved to `localStorage`,so it doesn't reset back to light mode every time you refresh the page(which annoyed me enough in testing that I made sure to fix it properly).
 **Loading screen** —shows briefly when the page first loads,then disappears after a short delay.Nothing fancy,just state+a timer.
@@ -165,13 +166,13 @@ const [formData, setFormData] = useState({
 ---
 ## Form Handling & Validation
 
-The contact form is fully controlled — every input's value comes from state, and every keystroke updates it:
+The contact form is fully controlled—every input's value comes from state,and every keystroke updates it:
 
 ```jsx
 value={formData.name}
 onChange={handleChange}
 ```
-When you hit send, `validateForm()` runs through the required fields, checks the email format, and either sets error messages or lets the submission go through.
+When you hit send, `validateForm()` runs through the required fields,checks the email format,and either sets error messages or lets the submission go through.
 
 ```
 type stuff in
@@ -217,9 +218,3 @@ Stuff I'd add if I kept working on this:
 ---
 ## What I Actually Learned Doing This
 This was the first time I built something in React beyond a tutorial, so a lot of this was trial and error — figuring out where state should actually live, when `useEffect` is the right tool versus just overusing it everywhere, and how dynamic routing works with `useParams`. Getting the theme to persist through refreshes and getting the dynamic project routes working were probably the two things that took the longest to get right.
-
----
-## Author
-**Varthyavath Lavanya**
-Computer Science Student
-GitHub: https://github.com/24CSB0B83/

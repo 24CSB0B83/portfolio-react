@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1789234688313,
+    "name": "Varthyavath Lavanya",
+    "email": "vl24csb0b83@student.nitw.ac.in",
+    "message": "i wanted to know ,more about you",
+    "createdAt": "2026-09-12T17:38:08.313Z"
+  },
+  {
+    "id": 1789238035308,
+    "name": "Varthyavath Lavanya",
+    "email": "vl24csb0b83@student.nitw.ac.in",
+    "message": "holaa..",
+    "createdAt": "2026-09-12T18:33:55.308Z"
+  },
+  {
+    "id": 1789238379535,
+    "name": "lavanya",
+    "email": "lavanya@example.com",
+    "message": "assignment 3 done succesfully",
+    "createdAt": "2026-09-12T18:39:39.536Z"
+  }
+]
