@@ -7,7 +7,7 @@ import About from "./pages/about";
 import Skills from "./pages/skills";
 import Projects from "./pages/Projects";
 import Education from "./pages/education";
-import Contact from "./pages/Contact";
+import Contact from "./pages/contact";
 import ProjectDetails from "./pages/ProjectDetails";
 import NotFound from "./pages/NotFound";
 
