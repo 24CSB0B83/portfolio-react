@@ -3,10 +3,10 @@ import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
-import About from "./pages/About";
-import Skills from "./pages/Skills";
+import About from "./pages/about";
+import Skills from "./pages/skills";
 import Projects from "./pages/Projects";
-import Education from "./pages/Education";
+import Education from "./pages/education";
 import Contact from "./pages/Contact";
 import ProjectDetails from "./pages/ProjectDetails";
 import NotFound from "./pages/NotFound";
