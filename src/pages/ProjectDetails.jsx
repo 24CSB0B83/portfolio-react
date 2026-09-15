@@ -9,7 +9,7 @@ function ProjectDetails() {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        fetch(`https://portfolio-react-1-cjim.onrender.com/api/projects/${projectId}`)
+       fetch(`https://portfolio-react-1-cjim.onrender.com/api/projects/${projectId}`)
             .then((response) => {
                 if (!response.ok) {
                     if (response.status === 404) {
