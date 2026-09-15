@@ -95,7 +95,7 @@ app.get("/api/projects/:id", (req, res, next) => {
 app.post("/api/contact", (req, res, next) => {
     try {
 
-        const { name, email, message } = req.body;
+        const { name, email, subject, message } = req.body;
 
         // Validate name
         if (!name || name.trim() === "") {
@@ -118,6 +118,13 @@ app.post("/api/contact", (req, res, next) => {
                 error: "Invalid email address"
             });
         }
+        //validate subject 
+        // Validate subject
+if (!subject || subject.trim() === "") {
+    return res.status(400).json({
+        error: "Subject is required"
+    });
+}
 
         // Validate message
         if (!message || message.trim() === "") {
@@ -136,12 +143,13 @@ app.post("/api/contact", (req, res, next) => {
 
         // Create new contact
         const newContact = {
-            id: Date.now(),
-            name: name.trim(),
-            email: email.trim(),
-            message: message.trim(),
-            createdAt: new Date().toISOString()
-        };
+    id: Date.now(),
+    name: name.trim(),
+    email: email.trim(),
+    subject: subject.trim(),
+    message: message.trim(),
+    createdAt: new Date().toISOString()
+};
 
         // Add contact
         contacts.push(newContact);
