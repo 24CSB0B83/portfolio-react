@@ -7,7 +7,7 @@ function Projects() {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        fetch("https://portfolio-react-1-cjim.onrender.com/api/projects")
+       fetch("https://portfolio-react-1-cjim.onrender.com/api/projects")
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Failed to fetch projects");
